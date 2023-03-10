@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "candy_crush_widget"
+version = "0.0.1"
+description = "A widget representint an instance of the candy crush tile matching game"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.scripts]
+candy-crush = "candy_crush_widget.cli:candy-crush"
