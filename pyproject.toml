@@ -10,4 +10,4 @@ readme = "README.md"
 requires-python = ">=3.10"
 
 [project.scripts]
-candy-crush = "candy_crush_widget.cli:candy-crush"
+candy-crush = "candy_crush_widget.cli:candy_crush"

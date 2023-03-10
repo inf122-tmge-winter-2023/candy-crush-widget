@@ -5,8 +5,9 @@
 """
 
 import click
+import tilematch_tools
 
 @click.command()
-def candy-crush():
+def candy_crush():
     """Entry point to candy-crush"""
     click.echo('Hello World!')
