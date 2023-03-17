@@ -19,13 +19,20 @@ LOGGER.setLevel(logging.ERROR)
 
 
 @click.command()
-def candy_crush():
+@click.argument('rows')
+@click.argument('cols')
+def candy_crush(rows, cols):
     """Entry point to candy-crush"""
-    cc_init()
+    try:
+        rows = int(rows)
+        cols = int(cols)
+        cc_init(rows, cols)
+    except ValueError as e:
+        print("Invalid paramters received. Pass in the numbers of rows and columns. Ex: candy-crush 10 10") 
 
 
-def cc_init():
-    board = BoardFactory.create_board_with_tiles(CCGameBoard, 10, 10, initial_tiles(10,10))
+def cc_init(rows, cols):
+    board = BoardFactory.create_board_with_tiles(CCGameBoard, rows, cols, initial_tiles(rows,cols))
     score = CCScore()
     state = GameState(board, score)
     view = View(state)
