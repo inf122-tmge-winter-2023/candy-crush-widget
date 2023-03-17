@@ -27,7 +27,7 @@ def candy_crush(rows, cols):
         rows = int(rows)
         cols = int(cols)
         cc_init(rows, cols)
-    except ValueError as e:
+    except ValueError:
         print("Invalid paramters received. Pass in the numbers of rows and columns. Ex: candy-crush 10 10") 
 
 
