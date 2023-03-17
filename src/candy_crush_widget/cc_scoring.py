@@ -5,5 +5,5 @@ class CCScore(Scoring):
             super().__init__()
 
     def award_for_match(self, match):
-        self._points += len(match.matching_tiles)
+        self._points += match.value
 
