@@ -11,7 +11,7 @@ from tilematch_tools import View, GameEngine, BoardFactory, \
     GameState, LOGGER
 from candy_crush_widget.cc_match_rules import HorizontalMatch, VerticalMatch
 
-from candy_crush_widget.initial_tiles import initial_tiles
+from candy_crush_widget.initial_tiles import initial_tiles, contains_matches
 from candy_crush_widget.cc_game_loop import CCGameLoop
 from candy_crush_widget.cc_scoring import CCScore
 from candy_crush_widget.cc_game_board import CCGameBoard
@@ -33,7 +33,14 @@ def candy_crush(rows, cols):
 
 
 def cc_init(rows, cols):
+
     board = BoardFactory.create_board_with_tiles(CCGameBoard, rows, cols, initial_tiles(rows,cols))
+    count = 0
+    while contains_matches(board, [VerticalMatch(1), HorizontalMatch(1)]):
+        count += 1
+        board = BoardFactory.create_board_with_tiles(CCGameBoard, rows, cols, initial_tiles(rows,cols))
+    print(count)
+
     score = CCScore()
     state = GameState(board, score)
     view = View(state)
@@ -42,5 +49,5 @@ def cc_init(rows, cols):
     state.add_match_condition(HorizontalMatch(1))
     loop = CCGameLoop(state, view)
     
-    engine = GameEngine([loop])
+    engine = GameEngine([loop, loop])
     engine.run()
