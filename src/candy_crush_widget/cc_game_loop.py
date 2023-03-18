@@ -1,9 +1,19 @@
 from collections.abc import Iterable
+import time
 from tilematch_tools.core import GameLoop 
 from tilematch_tools import MatchCondition
 class CCGameLoop(GameLoop):
     def clear_matches(self, matches_found: Iterable[MatchCondition.MatchFound]) -> None:
-        return super().clear_matches(matches_found)
+        """ Omitting the sleep from super()
+            :arg matches_found: list of discovered matches to clear
+            :arg type: list
+            :returns: nothing
+            :rtype: None
+        """
+        for match in matches_found:
+            self._state.clear_match(match)
+            self._state.adjust_score(match)
+
     
     def find_matches(self, match_rules: Iterable[MatchCondition]) -> Iterable[MatchCondition.MatchFound]:
         matches_found = []
