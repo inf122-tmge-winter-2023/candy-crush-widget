@@ -6,7 +6,7 @@ class CCGameBoard(GameBoard):
     def __init__(self, width, height):
         super().__init__(width, height)
 
-
+    # TODO Move somewhere else
     def collapse_all(self):
         for x in range(1, self.num_cols + 1):
             for y in range(1, self.num_rows + 1):
