@@ -17,12 +17,12 @@ import logging
 
 TMT_LOGGER.setLevel(logging.CRITICAL)
 
-CC_LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger(__name__)
 LOG_HANDLER = logging.StreamHandler()
 LOG_FORMAT = logging.Formatter('[%(asctime)s|%(name)s|%(levelname)s] - %(message)s')
 
-CC_LOGGER.setLevel(logging.CRITICAL)
+LOGGER.setLevel(logging.CRITICAL)
 LOG_HANDLER.setLevel(logging.CRITICAL)
 
 LOG_HANDLER.setFormatter(LOG_FORMAT)
-CC_LOGGER.addHandler(LOG_HANDLER)
+LOGGER.addHandler(LOG_HANDLER)
