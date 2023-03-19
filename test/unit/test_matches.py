@@ -10,9 +10,7 @@ from tilematch_tools import BoardFactory, GameState, TileBuilder
 
 from candy_crush_widget.cc_tile import CCTile
 
-from tilematch_tools import LOGGER
 
-LOGGER.setLevel(level=logging.ERROR)
 
 def test_horizontal_match():
     board = BoardFactory.create_board(CCGameBoard, 10, 10)
