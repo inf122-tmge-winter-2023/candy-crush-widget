@@ -1,9 +1,16 @@
 from collections.abc import Iterable
+import queue
 import time
 from tilematch_tools.core import GameLoop 
-from tilematch_tools import MatchCondition
+from tilematch_tools import MatchCondition, View
+from tilematch_tools.core.game_loop import FPSDelay
+
+from .cc_game_state import CCGameState
 
 class CCGameLoop(GameLoop):
+    def __init__(self, state: CCGameState, view: View, delay: FPSDelay = FPSDelay.FPS30):
+        super().__init__(state, view, delay)
+
     def clear_matches(self, matches_found: Iterable[MatchCondition.MatchFound]) -> None:
         """ Omitting the sleep from super()
             :arg matches_found: list of discovered matches to clear
@@ -15,7 +22,9 @@ class CCGameLoop(GameLoop):
             self._state.clear_match(match)
             self._state.adjust_score(match)
         # TODO Update method
+        
         self.state.board.collapse_all()
+    
 
         
         
@@ -33,8 +42,12 @@ class CCGameLoop(GameLoop):
         return super().gameover()
     
     def handle_input(self) -> None:
-        return super().handle_input()
-
+        try:
+            mouse_event = self.view.mouse_event
+            self.state.select_tile(mouse_event[0], mouse_event[1])
+        except queue.Empty:
+            pass
+            
     def update_view(self) -> None:
         return super().update_view()
     
