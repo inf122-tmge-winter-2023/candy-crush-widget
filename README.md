@@ -2,8 +2,9 @@
 
 ## About
 
-A widget representint an instance of the candy crush tile matching game
+A widget representing an instance of the candy crush tile matching game
 
-## Contributers
+## Contributors
 
 - Nathan Mendoza (nathancm@uci.edu)
+- Matthew Isayan
