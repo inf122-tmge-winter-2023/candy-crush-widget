@@ -21,9 +21,7 @@ class CCGameLoop(GameLoop):
         for match in matches_found:
             self._state.clear_match(match)
             self._state.adjust_score(match)
-        # TODO Update method
-        
-        self.state.board.collapse_all()
+        self.state.collapse_all()
     
 
         
