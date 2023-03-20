@@ -22,12 +22,7 @@ class CCGameLoop(GameLoop):
             self._state.clear_match(match)
             self._state.adjust_score(match)
         self.state.collapse_all()
-    
 
-        
-        
-
-    
     def find_matches(self, match_rules: Iterable[MatchCondition]) -> Iterable[MatchCondition.MatchFound]:
         matches_found = []
         for match_rule in match_rules:
