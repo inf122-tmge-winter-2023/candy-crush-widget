@@ -1,7 +1,7 @@
 from collections.abc import Iterable
 import time
 from tilematch_tools import MatchCondition, GameView, GameLoop
-
+from tilematch_tools.core.exceptions import GameEndedException
 from candy_crush_widget.cc_view import CCMouseEvent
 
 from .cc_game_state import CCGameState
@@ -10,7 +10,18 @@ class CCGameLoop(GameLoop):
     def __init__(self, state: CCGameState, view: GameView, delay: int = 1000000000):
         super().__init__(state, view, delay)
         self.pause = False
-        self.bind_inputs()
+
+    def __call__(self):
+        """Go thru one iteration of the game loop"""
+        if self.state.gameover():
+            raise GameEndedException(
+                    'The game has already ended. No further loop iterations are allowed'
+                    )
+        if self.can_advance():
+            self.tick()
+            while matches := self.find_matches(self._state.match_rules):
+                self.clear_matches(matches)
+                self.clean_up_state()
 
     def clear_matches(self, matches_found: Iterable[MatchCondition.MatchFound]) -> None:
         """ Omitting the sleep from super()
@@ -42,8 +53,3 @@ class CCGameLoop(GameLoop):
             if match_found is not None:
                 matches_found.append(match_found)
         return matches_found
-
-    def bind_inputs(self):
-        self.view.bind_click('<Button-1>', CCMouseEvent(self.state, self.view.board_view))
-
-        
