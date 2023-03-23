@@ -6,5 +6,5 @@ class CCTileColor(StrEnum):
     BLUE = "#428bca"	
     RED = "#d9534f"	
     ORANGE = "#ffb21b"	
-    PURPLE = "#7289da"	
+    PURPLE = "#A020F0"	
 
