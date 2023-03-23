@@ -33,6 +33,7 @@ class CCGameLoop(GameLoop):
     
     def clean_up_state(self):
         self.state.collapse_all()
+        self.state.regen_tiles()
         
     def find_matches(self, match_rules: Iterable[MatchCondition]) -> Iterable[MatchCondition.MatchFound]:
         matches_found = []
@@ -45,4 +46,4 @@ class CCGameLoop(GameLoop):
     def bind_inputs(self):
         self.view.bind_click('<Button-1>', CCMouseEvent(self.state, self.view.board_view))
 
-
+        
