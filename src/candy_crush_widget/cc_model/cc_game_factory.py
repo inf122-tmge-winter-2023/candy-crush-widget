@@ -1,12 +1,9 @@
 from typing import Iterable, Type
-from tilematch_tools.core.game_factory import GameFactory, Game
-from tilematch_tools.core import BoardFactory
-
+from tilematch_tools import GameFactory, Game, BoardFactory
 from .cc_game_state import CCGameState
 from .cc_game_board import CCGameBoard
 from .cc_game_loop import CCGameLoop
 from .cc_scoring import CCScore
-from .cc_tile import CCTile
 from .cc_match_rules import HorizontalMatch, VerticalMatch
 from ..initial_tiles import get_unique_tiles
 from ..cc_view import CCView
