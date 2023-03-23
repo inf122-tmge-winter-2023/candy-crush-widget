@@ -13,10 +13,6 @@ from .cc_tile import CCTile
 from .cc_game_state import CCGameState
 from .cc_movement_rules import AbsoluteDescent
 
-# For auto game discovery experimentation
-__game__ = 'Candy Crush'
-
-
 from tilematch_tools import LOGGER as TMT_LOGGER
 import logging
 
