@@ -1,6 +1,8 @@
 import logging
 from tilematch_tools import GameView, MouseEvent
 
+from ..cc_model.cc_game_state import CCGameState
+
 LOGGER = logging.getLogger(__name__)
 
 class CCView(GameView):
@@ -9,6 +11,15 @@ class CCView(GameView):
         super().__init__(parent, game_state, 'Candy Crush')
         self.bind_inputs()
         
+    def create_widgets(self):
+        super().create_widgets()
+        self._game_widgets["move_counter"] = MoveCounter(self, self._game)
+    
+    def place_widgets(self):
+        super().place_widgets()
+        self._game_widgets['move_counter'].grid(column=6, row=3, columnspan=2, rowspan=4, padx=30, pady=30)
+
+    
     def bind_inputs(self):
         self.bind_click('<Button-1>', CCMouseEvent(self._game, self.board_view))
 
@@ -25,3 +36,42 @@ class CCMouseEvent(MouseEvent):
         tile = self.listener.board.tile_at(*tile_position)
         LOGGER.info(f"Player clicked on {tile.position}")
         self.listener.select_tile(tile)
+
+import tkinter as tk
+
+from tilematch_tools import GameInfo
+class MoveCounter(GameInfo):
+    """
+        GUI widget for displaying moves left
+    """
+    
+    def __init__(self, parent, state: CCGameState, **options):
+        super().__init__(parent, **options)
+        self._watching = state
+
+    @property
+    def watching(self):
+        return self._watching.moves_left
+
+    @property
+    def showing(self):
+        if not hasattr(self, '_showing'):
+            self._showing = tk.StringVar()
+            self._showing.set('30')
+            
+        return self._showing
+
+    def update(self):
+        current_display = int(self.showing.get())
+        if current_display < self.watching:
+            self.showing.set(str(current_display + 1))
+        elif current_display > self.watching:
+            self.showing.set(str(current_display - 1))
+
+    def create_widgets(self):
+        self._counter_label = tk.Label(self, text='Moves Left: ', font=self.font, width=10, anchor=tk.W)
+        self._coutner_display = tk.Label(self, textvariable=self.showing, font=self.font, width=4, anchor=tk.E)
+
+    def place_widgets(self):
+        self._counter_label.grid(row=0, column=0)
+        self._coutner_display.grid(row=0, column=1)
