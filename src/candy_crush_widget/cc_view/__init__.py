@@ -7,6 +7,11 @@ class CCView(GameView):
     """Class representing the candy-crush view"""
     def __init__(self, parent, game_state):
         super().__init__(parent, game_state, 'Candy Crush')
+        self.bind_inputs()
+        
+    def bind_inputs(self):
+        self.bind_click('<Button-1>', CCMouseEvent(self._game, self.board_view))
+
 
 class CCMouseEvent(MouseEvent):
     def __init__(self, listener, board_clicked_on):
