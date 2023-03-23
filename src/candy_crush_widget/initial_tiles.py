@@ -1,8 +1,8 @@
 import random
 from tilematch_tools import TileBuilder, MatchCondition
 from collections.abc import Iterable
-from candy_crush_widget.cc_colors import CCTileColor
-from candy_crush_widget.cc_tile import CCTile
+from .cc_model import CCTileColor, CCTile
+
 
 
 builder = TileBuilder()

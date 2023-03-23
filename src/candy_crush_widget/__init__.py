@@ -4,26 +4,19 @@
     :module_author: Nathan Mendoza (nathancm@uci.edu)
 """
 
-from .cc_colors import CCTileColor
-from .cc_game_board import CCGameBoard
-from .cc_game_loop import CCGameLoop
-from .cc_match_rules import *
-from .cc_scoring import CCScore
-from .cc_tile import CCTile
-from .cc_game_state import CCGameState
-from .cc_movement_rules import AbsoluteDescent
+from .cc_model import *
+from .cc_view import *
 
-from tilematch_tools import LOGGER as TMT_LOGGER
+from tilematch_tools import LOGGER 
 import logging
 
-TMT_LOGGER.setLevel(logging.CRITICAL)
 
 LOGGER = logging.getLogger(__name__)
 LOG_HANDLER = logging.StreamHandler()
 LOG_FORMAT = logging.Formatter('[%(asctime)s|%(name)s|%(levelname)s] - %(message)s')
 
-LOGGER.setLevel(logging.CRITICAL)
-LOG_HANDLER.setLevel(logging.CRITICAL)
+LOGGER.setLevel(logging.INFO)
+LOG_HANDLER.setLevel(logging.INFO)
 
 LOG_HANDLER.setFormatter(LOG_FORMAT)
 LOGGER.addHandler(LOG_HANDLER)

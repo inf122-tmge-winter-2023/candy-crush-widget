@@ -7,33 +7,22 @@
 import logging
 import click
 
-from tilematch_tools import View, GameEngine, BoardFactory, \
-    GameState
-from candy_crush_widget.cc_game_state import CCGameState
-from candy_crush_widget.cc_match_rules import HorizontalMatch, VerticalMatch
-
-from candy_crush_widget.initial_tiles import *
-from candy_crush_widget.cc_game_loop import CCGameLoop
-from candy_crush_widget.cc_scoring import CCScore
-from candy_crush_widget.cc_game_board import CCGameBoard
+from tilematch_tools import  GameEngine, BoardFactory, Game
+from .cc_model import CCGameState, CCGameLoop, CCScore, CCGameBoard,  HorizontalMatch, VerticalMatch
+from .cc_view import CCView
+from .initial_tiles import *
 
 LOGGER = logging.getLogger(__name__)
 
 @click.command()
-@click.argument('rows')
-@click.argument('cols')
-def candy_crush(rows, cols):
+def candy_crush():
     """Entry point to candy-crush"""
-    try:
-        rows = int(rows)
-        cols = int(cols)
-        cc_init(rows, cols)
-    except ValueError:
-        print("Invalid paramters received. Pass in the numbers of rows and columns. Ex: candy-crush 10 10") 
+    cc_init()
 
-
-def cc_init(rows, cols):
-
+def cc_init():
+    rows = CCGameBoard.BOARD_HEIGHT
+    cols = CCGameBoard.BOARD_WIDTH
+    
     board = BoardFactory.create_board_with_tiles(CCGameBoard, rows, cols, initial_tiles(rows,cols))
     COUNT = 0
     while contains_matches(board, [VerticalMatch(1), HorizontalMatch(1)]):
@@ -42,12 +31,8 @@ def cc_init(rows, cols):
     LOGGER.critical(f"Generated {COUNT} sets of tiles")
     score = CCScore()
     state = CCGameState(board, score)
-    view = View(state)
-
     state.add_match_condition(VerticalMatch(1))
     state.add_match_condition(HorizontalMatch(1))
-    loop = CCGameLoop(state, view)
-    
-    engine = GameEngine([loop])
-    view.add_event_listener("ButtonRelease")
+
+    engine = GameEngine([Game(state, CCGameLoop, CCView, 750_000_000)])
     engine.run()

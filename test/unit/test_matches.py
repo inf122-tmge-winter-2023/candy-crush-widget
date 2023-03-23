@@ -1,16 +1,5 @@
-
-
-import logging
-from candy_crush_widget.cc_colors import CCTileColor
-from candy_crush_widget.cc_match_rules import HorizontalMatch, VerticalMatch
-from candy_crush_widget.cc_scoring import CCScore
-from candy_crush_widget.cc_game_board import CCGameBoard
+from candy_crush_widget.cc_model import CCTileColor, HorizontalMatch, VerticalMatch, CCScore, CCGameBoard, CCTile
 from tilematch_tools import BoardFactory, GameState, TileBuilder
-
-
-from candy_crush_widget.cc_tile import CCTile
-
-
 
 def test_horizontal_match():
     board = BoardFactory.create_board(CCGameBoard, 10, 10)
