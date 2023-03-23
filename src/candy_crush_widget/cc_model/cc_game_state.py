@@ -29,4 +29,6 @@ class CCGameState(GameState):
                 if(not isinstance(self.board.tile_at(x,y), NullTile)):
                     collapse = AbsoluteDescent()
                     collapse.move(self.board, self.board.tile_at(x,y))
-                    
+        
+    def gameover(self) -> bool:
+        return self.score.score > 49
