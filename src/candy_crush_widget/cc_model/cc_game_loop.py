@@ -1,15 +1,15 @@
 from collections.abc import Iterable
-import queue
 import time
-from tilematch_tools.core import GameLoop 
-from tilematch_tools import MatchCondition, View
-from tilematch_tools.core.game_loop import FPSDelay
+from tilematch_tools import MatchCondition, GameView, GameLoop
+
+from candy_crush_widget.cc_view import CCMouseEvent
 
 from .cc_game_state import CCGameState
 
 class CCGameLoop(GameLoop):
-    def __init__(self, state: CCGameState, view: View, delay: FPSDelay = FPSDelay.FPS30):
+    def __init__(self, state: CCGameState, view: GameView, delay: int = 1000000000):
         super().__init__(state, view, delay)
+        self.bind_inputs()
 
     def clear_matches(self, matches_found: Iterable[MatchCondition.MatchFound]) -> None:
         """ Omitting the sleep from super()
@@ -21,6 +21,12 @@ class CCGameLoop(GameLoop):
         for match in matches_found:
             self._state.clear_match(match)
             self._state.adjust_score(match)
+
+    def tick(self) -> None:
+        return super().tick()
+    
+    def clean_up_state(self):
+        time.sleep(.2)
         self.state.collapse_all()
 
     def find_matches(self, match_rules: Iterable[MatchCondition]) -> Iterable[MatchCondition.MatchFound]:
@@ -30,17 +36,8 @@ class CCGameLoop(GameLoop):
             if match_found is not None:
                 matches_found.append(match_found)
         return matches_found
-    
-    def gameover(self) -> bool:
-        return super().gameover()
-    
-    def handle_input(self) -> None:
-        try:
-            mouse_event = self.view.mouse_event
-            self.state.select_tile(mouse_event[0], mouse_event[1])
-        except queue.Empty:
-            pass
-            
-    def update_view(self) -> None:
-        return super().update_view()
-    
+
+    def bind_inputs(self):
+        self.view.bind_click('<Button-1>', CCMouseEvent(self.state, self.view.board_view))
+
+
