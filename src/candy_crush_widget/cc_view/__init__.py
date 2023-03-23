@@ -13,6 +13,9 @@ class CCMouseEvent(MouseEvent):
         super().__init__(listener, board_clicked_on)
 
     def __call__(self, event):
+        if self.listener.gameover():
+            LOGGER.warning(f"Attempting to click on the board while the game is over.")
+            return
         tile_position = super().__call__(event)
         tile = self.listener.board.tile_at(*tile_position)
         LOGGER.info(f"Player clicked on {tile.position}")
