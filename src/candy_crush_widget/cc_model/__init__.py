@@ -6,3 +6,4 @@ from .cc_scoring import CCScore
 from .cc_tile import CCTile
 from .cc_game_state import CCGameState
 from .cc_movement_rules import AbsoluteDescent
+from .cc_game_factory import CandyCrush, CCFactory

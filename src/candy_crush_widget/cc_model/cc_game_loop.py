@@ -9,6 +9,7 @@ from .cc_game_state import CCGameState
 class CCGameLoop(GameLoop):
     def __init__(self, state: CCGameState, view: GameView, delay: int = 1000000000):
         super().__init__(state, view, delay)
+        self.pause = False
         self.bind_inputs()
 
     def clear_matches(self, matches_found: Iterable[MatchCondition.MatchFound]) -> None:
@@ -18,17 +19,22 @@ class CCGameLoop(GameLoop):
             :returns: nothing
             :rtype: None
         """
-        for match in matches_found:
-            self._state.clear_match(match)
-            self._state.adjust_score(match)
+        if self.pause:
+            for match in matches_found:
+                self._state.clear_match(match)
+                self._state.adjust_score(match)
+            self.pause = False
+            return
+        self.pause = True
+
 
     def tick(self) -> None:
         return super().tick()
     
     def clean_up_state(self):
-        time.sleep(.2)
         self.state.collapse_all()
-
+        self.state.regen_tiles()
+        
     def find_matches(self, match_rules: Iterable[MatchCondition]) -> Iterable[MatchCondition.MatchFound]:
         matches_found = []
         for match_rule in match_rules:
@@ -40,4 +46,4 @@ class CCGameLoop(GameLoop):
     def bind_inputs(self):
         self.view.bind_click('<Button-1>', CCMouseEvent(self.state, self.view.board_view))
 
-
+        
