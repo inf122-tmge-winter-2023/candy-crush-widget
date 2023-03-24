@@ -1,8 +1,6 @@
 from collections.abc import Iterable
-import time
 from tilematch_tools import MatchCondition, GameView, GameLoop
 from tilematch_tools.core.exceptions import GameEndedException
-from candy_crush_widget.cc_view import CCMouseEvent
 
 from .cc_game_state import CCGameState
 

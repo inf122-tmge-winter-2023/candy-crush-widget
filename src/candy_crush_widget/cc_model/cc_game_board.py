@@ -1,4 +1,4 @@
-from tilematch_tools import GameBoard, NullTile
+from tilematch_tools import GameBoard
 
 
 class CCGameBoard(GameBoard):

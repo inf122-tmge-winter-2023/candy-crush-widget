@@ -1,4 +1,4 @@
-from typing import Iterable, Type
+from typing import  Type
 from tilematch_tools import GameFactory, Game, BoardFactory
 from .cc_game_state import CCGameState
 from .cc_game_board import CCGameBoard
