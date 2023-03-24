@@ -12,7 +12,7 @@ class CCGameState(GameState):
     def __init__(self, board: CCGameBoard, score: CCScore):
         super().__init__(board, score)
         self.selected_tile = None
-        self.moves_left = 10
+        self.moves_left = 25
 
     def select_tile(self, clicked_tile: CCTile):
         if not self.selected_tile:

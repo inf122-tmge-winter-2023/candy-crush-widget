@@ -23,6 +23,16 @@ class CCView(GameView):
     def bind_inputs(self):
         self.bind_click('<Button-1>', CCMouseEvent(self._game, self.board_view))
 
+    def update(self):
+        if self._game.gameover():
+            for w in self._game_widgets.values():
+                w.update()
+            self._block_board()
+            return
+        for w in self._game_widgets.values():
+            w.update()
+
+
 
 class CCMouseEvent(MouseEvent):
     def __init__(self, listener, board_clicked_on):
@@ -51,22 +61,18 @@ class MoveCounter(GameInfo):
 
     @property
     def watching(self):
-        return self._watching.moves_left
+        return self._watching.moves_left 
 
     @property
     def showing(self):
         if not hasattr(self, '_showing'):
             self._showing = tk.StringVar()
-            self._showing.set('30')
+            self._showing.set('25')
             
         return self._showing
 
     def update(self):
-        current_display = int(self.showing.get())
-        if current_display < self.watching:
-            self.showing.set(str(current_display + 1))
-        elif current_display > self.watching:
-            self.showing.set(str(current_display - 1))
+        self.showing.set(self.watching)
 
     def create_widgets(self):
         self._counter_label = tk.Label(self, text='Moves Left: ', font=self.font, width=10, anchor=tk.W)
