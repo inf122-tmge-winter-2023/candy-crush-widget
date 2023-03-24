@@ -12,6 +12,7 @@ class CCGameState(GameState):
     def __init__(self, board: CCGameBoard, score: CCScore):
         super().__init__(board, score)
         self.selected_tile = None
+        self.moves_left = 25
 
     def select_tile(self, clicked_tile: CCTile):
         if not self.selected_tile:
@@ -23,6 +24,7 @@ class CCGameState(GameState):
             self.swap_tiles(self.selected_tile, clicked_tile)
             self.selected_tile.border = TileColor.GRAY
             self.selected_tile = None
+            self.moves_left -= 1
         
     def collapse_all(self):
         for x in range(1, self.board.num_cols + 1):
@@ -43,6 +45,6 @@ class CCGameState(GameState):
                         .construct(CCTile)
                     self.board.place_tile(random_tile)
 
-                    
+
     def gameover(self) -> bool:
-        return self.score.score > 49
+        return self.moves_left <= 0
